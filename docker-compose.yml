@@ -9,16 +9,17 @@ services:
   #   depends_on:
   #     - db
   db:
-    image: postgres
+    image: mysql:8.0.33
+    container_name: mysql
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: restaurant
-    ports:
-      - 5432:5432
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USR
+      MYSQL_PASSWORD: $MYSQL_PASS
+      MYSQL_DATABASE: $MYSQL_DBNAME
     volumes:
-      - database:/var/lib/postgresql/data
-
-volumes:
-  database:
+      - ./migrations/sql/01_create_database.up.sql:/docker-entrypoint-initdb.d/01_create_database.up.sql
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
