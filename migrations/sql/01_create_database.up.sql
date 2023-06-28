@@ -75,6 +75,7 @@ CREATE TABLE pedido (
 	pago BOOL NOT NULL,
 	status_id BIGINT NOT NULL,
 	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+	atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -117,3 +118,6 @@ INSERT INTO pedido_status (nome) VALUES (N'Finalizado');
 
 INSERT INTO pagamento_status (nome) VALUES (N'Pendente');
 INSERT INTO pagamento_status (nome) VALUES (N'Pago');
+
+INSERT INTO pedido (cliente_id, confirmado, pago, status_id) VALUES (1, true, true, 1);
+
