@@ -1,53 +1,56 @@
 package main
 
 import (
-	"database/sql"
-	"embed"
-	"fmt"
+	"flag"
+	"log"
+	repository "soat1-challenge1/internal/repositories"
+	"time"
 
-	"soat1-challenge1/helpers"
-
-	"github.com/Boostport/migration"
-	"github.com/Boostport/migration/driver/mysql"
+	"github.com/go-gormigrate/gormigrate/v2"
+	"gorm.io/gorm"
 )
 
-var (
-	//go:embed sql/*.sql
-	migFs embed.FS
-)
+type order struct {
+	ID        string `gorm:"not null, primaryKey"`
+	Confirmed bool   `gorm:"not null"`
+	Paid      bool   `gorm:"not null"`
+	StatusID  string `gorm:"not null"`
+	ClientID  int
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
 
 func main() {
-	db, err := sql.Open("mysql", helpers.BuildMysqlConnUrl())
-	if err != nil {
-		panic(err)
+	rollback := flag.Bool("rollback", false, "use when migration should rollback")
+	flag.Parse()
+
+	db := repository.NewRepository()
+
+	migration := []*gormigrate.Migration{
+		// create orders table
+		{
+			ID: "20230628",
+			Migrate: func(tx *gorm.DB) error {
+				return tx.AutoMigrate(&order{})
+			},
+			Rollback: func(tx *gorm.DB) error {
+				return tx.Migrator().DropTable(&order{})
+			},
+		},
 	}
 
-	driver, err := mysql.NewFromDB(db)
-	if err != nil {
-		panic(err)
-	}
+	m := gormigrate.New(db.Conn, gormigrate.DefaultOptions, migration)
 
-	dirs, err := migFs.ReadDir("sql")
-	if err != nil {
-		panic(fmt.Sprintf("error reading migrations files from embed: %v", err))
-	} else {
-		println("List of migrations found:")
-		for _, d := range dirs {
-			println(fmt.Sprintf(" - %s", d.Name()))
+	if *rollback {
+		if err := m.RollbackMigration(migration[0]); err != nil {
+			log.Fatalf("Could not rollback: %v", err)
 		}
-		println("End of list")
+		log.Printf("Migration rollback did run successfully")
+		return
 	}
 
-	embedSource := &migration.EmbedMigrationSource{
-		EmbedFS: migFs,
-		Dir:     "sql",
+	if err := m.Migrate(); err != nil {
+		log.Fatalf("Could not migrate: %v", err)
 	}
-
-	// Run all up migrations
-	applied, err := migration.Migrate(driver, embedSource, migration.Up, 0)
-	if err != nil {
-		panic(fmt.Sprintf("Error applying migrations: %s", err.Error()))
-	} else {
-		println(fmt.Sprintf("last applied %d", applied))
-	}
+	log.Printf("Migration did run successfully")
 }
