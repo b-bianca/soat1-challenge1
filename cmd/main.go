@@ -28,7 +28,8 @@ func main() {
 
 	// create manager
 	m := manage.New(&manage.UseCases{
-		Order: usecases.NewOrderUseCase(repository.Order),
+		Order:   usecases.NewOrderUseCase(repository.Order),
+		Product: usecases.NewProductUseCase(repository.Product),
 	})
 
 	// create engine

@@ -11,7 +11,13 @@ type ClientRepository interface {
 	Create(client *domain.Client) (*domain.Client, error)
 }
 
-// OrderRepository holds methods for order
+// OrderRepository is the interface for order database
 type OrderRepository interface {
 	List(context.Context) (*domain.OrderResponseList, error)
+}
+
+// ProductRepository is the interface for product database
+type ProductRepository interface {
+	Create(ctx context.Context, product *domain.Product) (*domain.Product, error)
+	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
 }
