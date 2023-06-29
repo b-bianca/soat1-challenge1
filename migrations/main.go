@@ -7,17 +7,18 @@ import (
 	"time"
 
 	"github.com/go-gormigrate/gormigrate/v2"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type order struct {
-	ID        string `gorm:"not null, primaryKey"`
-	Confirmed bool   `gorm:"not null"`
-	Paid      bool   `gorm:"not null"`
-	StatusID  string `gorm:"not null"`
-	ClientID  int
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uuid.UUID `gorm:"primaryKey;autoIncrement"`
+	Confirmed bool      `gorm:"not null"`
+	Paid      bool      `gorm:"not null"`
+	StatusID  string    `gorm:"not null"`
+	ClientID  string
+	CreatedAt time.Time `gorm:"autoCreateTime"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
 	migration := []*gormigrate.Migration{
 		// create orders table
 		{
-			ID: "20230628",
+			ID: "20230604",
 			Migrate: func(tx *gorm.DB) error {
 				return tx.AutoMigrate(&order{})
 			},
