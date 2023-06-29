@@ -4,13 +4,13 @@ import "time"
 
 // Order domain table model
 type Order struct {
-	ID        string `gorm:"not null, primaryKey"`
-	Confirmed bool   `gorm:"not null"`
-	Paid      bool   `gorm:"not null"`
-	StatusID  string `gorm:"not null"`
+	ID        string
+	Confirmed bool
+	Paid      bool
+	StatusID  string
 	ClientID  int
-	CreatedAt time.Time `gorm:"not null;default:now()"`
-	UpdatedAt time.Time `gorm:"not null;autoUpdateTime"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // OrderResponseList summary list

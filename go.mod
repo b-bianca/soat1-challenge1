@@ -3,8 +3,6 @@ module soat1-challenge1
 go 1.20
 
 require (
-	github.com/Boostport/migration v1.1.2
-	github.com/Boostport/migration/driver/mysql v1.1.2
 	github.com/emicklei/go-restful/v3 v3.10.2
 	github.com/go-sql-driver/mysql v1.7.1
 )
@@ -35,11 +33,14 @@ require (
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/go-gormigrate/gormigrate/v2 v2.1.0
+	github.com/google/uuid v1.3.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.1 // indirect
+	gorm.io/gorm v1.25.1
 )
