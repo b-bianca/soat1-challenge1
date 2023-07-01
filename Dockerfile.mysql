@@ -1,0 +1,9 @@
+FROM mysql:8
+
+ENV MYSQL_DATABASE restaurante
+ENV MYSQL_ROOT_HOST localhost
+ENV MYSQL_ALLOW_EMPTY_PASSWORD true
+
+COPY sql/*.sql /docker-entrypoint-initdb.d/
+
+COPY migrations/sql/*.sql /docker-entrypoint-initdb.d/

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -17,7 +18,7 @@ const (
 // NewRepository creates a new gorm mysql db repository instance.
 func NewRepository() (repo *Repository) {
 
-	gdb, err := gorm.Open(mysql.Open("user123:userpass@tcp(127.0.0.1:3306)/restaurant"), &gorm.Config{})
+	gdb, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=true&loc=Local", "admin", "admin", "localhost", "restaurante")), &gorm.Config{})
 	if err != nil {
 		log.Panicf("failed to create mysql db: %v", err)
 	}

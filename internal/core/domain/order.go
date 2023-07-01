@@ -1,14 +1,18 @@
 package domain
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 // Order domain table model
 type Order struct {
-	ID        string
+	ID        uuid.UUID
 	Confirmed bool
 	Paid      bool
 	StatusID  string
-	ClientID  int
+	ClientID  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

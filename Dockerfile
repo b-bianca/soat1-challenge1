@@ -1,19 +1,25 @@
-FROM golang
+FROM golang:1.20-mini
 
-WORKDIR /
-COPY go.mod .
-COPY go.sum .
+ENV APPLICATION_NAME=soat1_challenge1
 
-RUN go install github.com/b-bianca/soat1-challenge1@latest
-RUN go build -gcflags="all=-N -l" -o /feedme
-RUN echo $(ls /go/bin)
+ENV APPLICATION_PACKAGE=./cmd
+ENV APPLICATION_WORKING_DIR=app
 
-FROM gcr.io/distroless/base-debian10
-WORKDIR /
+# Setup and install MySQL database for testing
+RUN echo "mysql-community-server mysql-community-server/root-pass password root" | debconf-set-selections; \
+    echo "mysql-community-server mysql-community-server/re-root-pass password root" | debconf-set-selections
 
-EXPOSE 2345
+RUN apt-get update && apt-get install -y gnupg2 && echo 'deb http://repo.mysql.com/apt/ubuntu/ bionic mysql-8.0' >> /etc/apt/sources.list.d/mysql.list
 
-COPY --from=build /go/bin/soat1 /soat1
-COPY --from=build /feedme ~/feedme
-#ENTRYPOINT [ "/dlv" ]
-CMD ["/soat1", "--listen=:2345", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", "~/feedme"]
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29 && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server
+
+# Install netcat for database status check
+RUN apt-get install -y netcat
+
+ENV DATABASE_HOST localhost
+ENV DATABASE_PASSWORD admin
+ENV DATABASE_NAME restaurante
+
+COPY sql/*.sql /docker-entrypoint-initdb.d/
+
+COPY migrations/sql/*.sql /docker-entrypoint-initdb.d/

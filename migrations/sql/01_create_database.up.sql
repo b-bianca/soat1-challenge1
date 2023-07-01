@@ -1,5 +1,3 @@
--- CREATE DATABASE `restaurante`;
--- USE `restaurante`;
 
 -- cliente
 DROP TABLE IF EXISTS cliente;
@@ -11,8 +9,6 @@ CREATE TABLE cliente (
 	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
--- pagamento
 DROP TABLE IF EXISTS pagamento_status;
 CREATE TABLE pagamento_status (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -28,7 +24,6 @@ CREATE TABLE pagamento (
 	status_id BIGINT NOT NULL,
 	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 -- produto
 DROP TABLE IF EXISTS produto_categoria;
@@ -58,6 +53,7 @@ CREATE TABLE pedido_status (
 	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 DROP TABLE IF EXISTS pedido_item;
 CREATE TABLE pedido_item (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -70,14 +66,13 @@ CREATE TABLE pedido_item (
 DROP TABLE IF EXISTS pedido;
 CREATE TABLE pedido (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	cliente_id BIGINT NULL,
-	confirmado BOOL NOT NULL,
-	pago BOOL NOT NULL,
+	cliente_id BIGINT NOT NULL,
+	confirmado BOOLEAN NOT NULL,
+	pago BOOLEAN NOT NULL,
 	status_id BIGINT NOT NULL,
-	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+	criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 -- foreign keys
 ALTER TABLE pagamento ADD CONSTRAINT pagamento_status_fk FOREIGN KEY (status_id) REFERENCES pagamento_status(id);
@@ -120,4 +115,3 @@ INSERT INTO pagamento_status (nome) VALUES (N'Pendente');
 INSERT INTO pagamento_status (nome) VALUES (N'Pago');
 
 INSERT INTO pedido (cliente_id, confirmado, pago, status_id) VALUES (1, true, true, 1);
-
