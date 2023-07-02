@@ -16,14 +16,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var httpPort = fmt.Sprintf(":%s", os.Getenv("API_PORT"))
+
 const (
-	httpPort        = ":8080"
 	shutdownTimeout = 5 * time.Second
 	pathPrefix      = "/api/v1"
 )
 
 func main() {
-
+	fmt.Println("port", httpPort)
 	repository := repository.NewRepository()
 
 	// create manager

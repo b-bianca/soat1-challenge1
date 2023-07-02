@@ -12,6 +12,6 @@
 /pkg/
 /out/
 
-# Arquivos de configuração
-*.env
-*.env.*
+# Arquivos de configuração permitidos apenas para efeito de estudo
+# *.env
+# *.env.*

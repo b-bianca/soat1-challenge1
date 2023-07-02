@@ -4,10 +4,10 @@ import "time"
 
 // Order domain table model
 type Order struct {
-	ID        string
+	ID        int
 	Confirmed bool
 	Paid      bool
-	StatusID  string
+	StatusID  int
 	ClientID  int
 	CreatedAt time.Time
 	UpdatedAt time.Time
