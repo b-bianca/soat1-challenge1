@@ -24,7 +24,7 @@ func (o *Order) List(ctx context.Context) (*domain.OrderResponseList, error) {
 	var count int64
 	var order []*domain.Order
 
-	result := dbFn.Table("orders").Find(&order).Count(&count)
+	result := dbFn.Table("order").Find(&order).Count(&count)
 
 	if result.Error != nil {
 		return nil, result.Error
