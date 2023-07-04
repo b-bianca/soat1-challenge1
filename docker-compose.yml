@@ -12,8 +12,10 @@ networks:
 services:
 
   database-mysql:
-    image: mysql:8.0.33
     container_name: restaurant-db
+    build:
+      context: .
+      dockerfile: Dockerfile.database-mysql
     restart: always
     env_file:
       - .env
@@ -31,20 +33,19 @@ services:
       - $MYSQL_HOST_PORT:$MYSQL_CONTAINER_PORT
     healthcheck:
       test:  ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USR}", "-p${MYSQL_PASS}"]
-      interval: 30s
-      timeout: 30s
-      retries: 10
-      start_period: 40s
+      interval: 10s
+      timeout: 5s
+      retries: 500
 
   api-golang:
     container_name: restaurant-api
     build:
       context: .   
-      dockerfile: Dockerfile.api
+      dockerfile: Dockerfile.api-golang
     env_file:
       - .env
     environment:
-      - MYSQL_DSN=$MYSQL_DSN
+      - MYSQL_DSN=$MYSQL_USR:$MYSQL_PASS@tcp($MYSQL_HOST:$MYSQL_CONTAINER_PORT)/$MYSQL_DBNAME?multiStatements=true
       - API_PORT=$API_CONTAINER_PORT
     networks:
       - restaurant-network

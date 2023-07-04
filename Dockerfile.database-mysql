@@ -1,0 +1,9 @@
+FROM mysql:8.0.33
+
+ENV MYSQL_ALLOW_EMPTY_PASSWORD="no"
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_USER=${MYSQL_USR}
+ENV MYSQL_PASSWORD=${MYSQL_PASS}
+ENV MYSQL_DATABASE=${MYSQL_DBNAME}
+
+COPY migrations/sql/01_create_database.up.sql /docker-entrypoint-initdb.d/01_create_database.up.sql
