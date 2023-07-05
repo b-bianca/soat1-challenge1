@@ -22,12 +22,44 @@ type OrderResponseList struct {
 }
 
 type CategoryRequestDTO struct {
-	Category string `json:"category"`
+	Name string `json:"name"`
 }
 
 type CategoryResponseDTO struct {
 	ID        int       `json:"id"`
-	Category  string    `json:"category"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type ProductRequestDTO struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	CategoryID  string  `json:"category_id"`
+	Price       float64 `json:"price"`
+}
+
+type ProductResponseDTO struct {
+	ID          int       `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	CategoryID  string    `json:"category_id"`
+	Price       float64   `json:"price"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+type CustomerRequestDTO struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	CPF   string `json:"cpf"`
+}
+
+type CustomerResponseDTO struct {
+	ID        int       `json:"id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	CPF       string    `json:"cpf"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

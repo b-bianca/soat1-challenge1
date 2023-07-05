@@ -6,22 +6,21 @@ import (
 	"soat1-challenge1/internal/core/ports"
 )
 
-type UseCase struct {
+type useCaseOrder struct {
 	repository ports.OrderRepository
 }
 
 // NewOrderUseCase is responsible for all use cases for orders
 func NewOrderUseCase(orderRepo ports.OrderRepository) ports.OrderUseCase {
-	return &UseCase{
+	return &useCaseOrder{
 		repository: orderRepo,
 	}
 }
 
 // List retrieves all orders
-func (u *UseCase) List(ctx context.Context) (*domain.OrderResponseList, error) {
+func (u *useCaseOrder) List(ctx context.Context) (*domain.OrderResponseList, error) {
 	res, err := u.repository.List(ctx)
 	if err != nil {
-		//TODO: ADD LOGS
 		return nil, err
 	}
 

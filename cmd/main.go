@@ -16,7 +16,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var httpPort = fmt.Sprintf(":%s", os.Getenv("API_PORT"))
+var httpPort = ":8080"
 
 const (
 	shutdownTimeout = 5 * time.Second
@@ -29,8 +29,9 @@ func main() {
 
 	// create manager
 	m := manage.New(&manage.UseCases{
-		Order:   usecases.NewOrderUseCase(repository.Order),
-		Product: usecases.NewProductUseCase(repository.Product),
+		Order:    usecases.NewOrderUseCase(repository.Order),
+		Product:  usecases.NewProductUseCase(repository.Product),
+		Customer: usecases.NewCustomerUseCase(repository.Customer),
 	})
 
 	// create engine
@@ -46,7 +47,7 @@ func main() {
 	engine.Run(httpPort)
 
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", httpPort),
+		Addr:    fmt.Sprintf(":%s", httpPort),
 		Handler: engine,
 	}
 

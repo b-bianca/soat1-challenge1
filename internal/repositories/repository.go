@@ -9,10 +9,11 @@ import (
 
 // Repository is a service to abstract mysql layer
 type Repository struct {
-	Conn    *gorm.DB
-	connSQL *sql.DB
-	Order   *Order
-	Product *Product
+	Conn     *gorm.DB
+	connSQL  *sql.DB
+	Order    *Order
+	Product  *Product
+	Customer *Customer
 }
 
 // New creates a new repository
@@ -24,10 +25,11 @@ func New(gdb *gorm.DB) *Repository {
 	}
 
 	return &Repository{
-		Conn:    gdb,
-		connSQL: conn,
-		Order:   NewOrderRepository(gdb),
-		Product: NewProductRepository(gdb),
+		Conn:     gdb,
+		connSQL:  conn,
+		Order:    NewOrderRepository(gdb),
+		Product:  NewProductRepository(gdb),
+		Customer: NewCustomerRepository(gdb),
 	}
 }
 

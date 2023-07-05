@@ -2,25 +2,23 @@ package domain
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // Product domain table model
 type Product struct {
-	ID          uuid.UUID
-	Name        string
-	Description string
-	CategoryID  string
-	Price       string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          int       `gorm:"not null"`
+	Name        string    `gorm:"not null"`
+	Description string    `gorm:"not null"`
+	CategoryID  string    `gorm:"not null"`
+	Price       float64   `gorm:"not null"`
+	CreatedAt   time.Time `gorm:"not null;autoCreateTime"`
+	UpdatedAt   time.Time `gorm:"not null;autoUpdateTime"`
 }
 
 // Category domain table model
 type Category struct {
-	ID        int
-	Category  string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        int       `gorm:"not null"`
+	Name      string    `gorm:"not null"`
+	CreatedAt time.Time `gorm:"not null;autoCreateTime"`
+	UpdatedAt time.Time `gorm:"not null;autoUpdateTime"`
 }
