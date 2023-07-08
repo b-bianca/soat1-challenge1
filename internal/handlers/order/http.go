@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"soat1-challenge1/internal/core/domain"
 	"soat1-challenge1/internal/handlers/dto"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -68,7 +67,7 @@ func (h *Handler) CreateOrder(ctx *gin.Context) {
 		Itens:   responseItems,
 	}
 
-	itens, err := h.useCase.CreateOrderItens(ctx, domainOrderItem)
+	_, err = h.useCase.CreateOrderItens(ctx, domainOrderItem)
 	if err != nil {
 		return
 	}

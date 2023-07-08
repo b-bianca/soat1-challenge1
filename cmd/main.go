@@ -16,7 +16,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var httpPort = ":8080"
+var httpPort = fmt.Sprintf(":%s", os.Getenv("API_PORT"))
 
 const (
 	shutdownTimeout = 5 * time.Second

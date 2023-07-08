@@ -3,56 +3,54 @@ version: '3.9'
 name: restaurant-app
 
 
-# networks:
-#   restaurant-network:
-#     driver: bridge
-#     name: restaurant-network
+networks:
+  restaurant-network:
+    driver: bridge
+    name: restaurant-network
 
 
 services:
 
   database-mysql:
-    image: mysql:latest
     container_name: restaurant-db
-    # build:
-      # context: .
-      # dockerfile: Dockerfile.database-mysql
+    build:
+      context: .
+      dockerfile: Dockerfile.database-mysql
     restart: always
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
     environment:
-      # MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-      MYSQL_ROOT_PASSWORD: user
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
-      MYSQL_DATABASE: restaurant
-    ports:
-      - "3306:3306"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USR
+      MYSQL_PASSWORD: $MYSQL_PASS
+      MYSQL_DATABASE: $MYSQL_DBNAME
     volumes:
       - ./migrations/sql/01_create_database.up.sql:/docker-entrypoint-initdb.d/01_create_database.up.sql
-    # networks:
-    #   - restaurant-network
+    networks:
+      - restaurant-network
+    ports:
+      - $MYSQL_HOST_PORT:$MYSQL_CONTAINER_PORT
+    healthcheck:
+      test:  ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USR}", "-p${MYSQL_PASS}"]
+      interval: 10s
+      timeout: 5s
+      retries: 500
 
-    # healthcheck:
-    #   test:  ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USR}", "-p${MYSQL_PASS}"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 500
-
-  # api-golang:
-  #   container_name: restaurant-api
-  #   build:
-  #     context: .   
-  #     dockerfile: Dockerfile.api-golang
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - MYSQL_DSN=$MYSQL_USR:$MYSQL_PASS@tcp($MYSQL_HOST:$MYSQL_CONTAINER_PORT)/$MYSQL_DBNAME?multiStatements=true
-  #     - API_PORT=$API_CONTAINER_PORT
-  #   networks:
-  #     - restaurant-network
-  #   ports:
-  #     - $API_HOST_PORT:$API_CONTAINER_PORT
-  #   depends_on:
-  #     database-mysql:
-  #       condition: service_healthy
+  api-golang:
+    container_name: restaurant-api
+    build:
+      context: .   
+      dockerfile: Dockerfile.api-golang
+    env_file:
+      - .env
+    environment:
+      - MYSQL_DSN=$MYSQL_USR:$MYSQL_PASS@tcp($MYSQL_HOST:$MYSQL_CONTAINER_PORT)/$MYSQL_DBNAME?multiStatements=true&charset=utf8mb4&parseTime=True&loc=Local
+      - API_PORT=$API_CONTAINER_PORT
+    networks:
+      - restaurant-network
+    ports:
+      - $API_HOST_PORT:$API_CONTAINER_PORT
+    depends_on:
+      database-mysql:
+        condition: service_healthy
