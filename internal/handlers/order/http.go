@@ -2,9 +2,15 @@ package order
 
 import (
 	"net/http"
+	"soat1-challenge1/internal/core/domain"
 	"soat1-challenge1/internal/handlers/dto"
+	"time"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	MaxQuantityPerOrder = 10
 )
 
 func (h *Handler) List(ctx *gin.Context) {
@@ -17,13 +23,11 @@ func (h *Handler) List(ctx *gin.Context) {
 
 	for _, item := range res.Result {
 		responseItems = append(responseItems, &dto.OrderResponseDTO{
-			ID:        item.ID,
-			Confirmed: item.Confirmed,
-			Paid:      item.Paid,
-			StatusID:  item.StatusID,
-			ClientID:  item.ClientID,
-			CreatedAt: item.CreatedAt,
-			UpdatedAt: item.UpdatedAt,
+			ID:         item.ID,
+			Status:     item.Status,
+			CustomerID: item.CustomerID,
+			CreatedAt:  item.CreatedAt,
+			UpdatedAt:  item.UpdatedAt,
 		})
 	}
 
@@ -31,6 +35,45 @@ func (h *Handler) List(ctx *gin.Context) {
 		Result: responseItems,
 		Count:  res.Count,
 	}
+
+	ctx.JSON(http.StatusOK, output)
+}
+
+func (h *Handler) CreateOrder(ctx *gin.Context) {
+	var input *dto.OrderRequestDTO
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		return
+	}
+
+	domainOrder := &domain.Order{
+		CustomerID: input.CustomerID,
+	}
+
+	res, err := h.useCase.CreateOrder(ctx, domainOrder)
+	if err != nil {
+		return
+	}
+
+	responseItems := make([]*domain.Itens, 0, MaxQuantityPerOrder)
+
+	for _, item := range input.Itens {
+		responseItems = append(responseItems, &domain.Itens{
+			ProductID: item.ProductID,
+			Quantity:  item.Quantity,
+		})
+	}
+
+	domainOrderItem := &domain.OrderItens{
+		OrderID: res.ID,
+		Itens:   responseItems,
+	}
+
+	itens, err := h.useCase.CreateOrderItens(ctx, domainOrderItem)
+	if err != nil {
+		return
+	}
+
+	output := &dto.OrderResponseDTO{}
 
 	ctx.JSON(http.StatusOK, output)
 }

@@ -13,6 +13,8 @@ type CustomerRepository interface {
 // OrderRepository is the interface for order database
 type OrderRepository interface {
 	List(context.Context) (*domain.OrderResponseList, error)
+	CreateOrder(context.Context, *domain.Order) (*domain.Order, error)
+	CreateOrderItens(ctx context.Context, order *domain.OrderItens) (*domain.OrderItens, error)
 }
 
 // ProductRepository is the interface for product database

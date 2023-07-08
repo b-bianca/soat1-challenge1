@@ -6,13 +6,22 @@ import (
 
 // OrderResponseDTO is the struct responsible to marshal to json body
 type OrderResponseDTO struct {
-	ID        int       `json:"id"`
-	Confirmed bool      `json:"confirmed"`
-	Paid      bool      `json:"paid"`
-	StatusID  int       `json:"status_id"`
-	ClientID  int       `json:"client"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID         int       `json:"id"`
+	Status     string    `json:"status"`
+	CustomerID int       `json:"customer_id"`
+	Itens      []*Itens  `json:"itens"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
+type OrderRequestDTO struct {
+	CustomerID int      `json:"customer_id"`
+	Itens      []*Itens `json:"itens"`
+}
+
+type Itens struct {
+	ProductID int `json:"product_id"`
+	Quantity  int `json:"quantity"`
 }
 
 // OrderResponseList is the struct responsible to marshal to json the response

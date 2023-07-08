@@ -12,6 +12,8 @@ type CustomerUseCase interface {
 
 // OrderUseCase is the interface for order repository
 type OrderUseCase interface {
+	CreateOrder(ctx context.Context, order *domain.Order) (*domain.Order, error)
+	CreateOrderItens(ctx context.Context, order *domain.OrderItens) (*domain.OrderItens, error)
 	List(context.Context) (*domain.OrderResponseList, error)
 }
 

@@ -26,3 +26,21 @@ func (u *useCaseOrder) List(ctx context.Context) (*domain.OrderResponseList, err
 
 	return res, nil
 }
+
+func (u *useCaseOrder) CreateOrder(ctx context.Context, input *domain.Order) (*domain.Order, error) {
+	res, err := u.repository.CreateOrder(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (u *useCaseOrder) CreateOrderItens(ctx context.Context, input *domain.OrderItens) (*domain.OrderItens, error) {
+	res, err := u.repository.CreateOrderItens(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
