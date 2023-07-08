@@ -5,6 +5,7 @@ import (
 	"soat1-challenge1/internal/core/domain"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // Order struct type
@@ -33,4 +34,24 @@ func (o *Order) List(ctx context.Context) (*domain.OrderResponseList, error) {
 		Result: order,
 		Count:  count,
 	}, nil
+}
+
+func (o *Order) CreateOrder(ctx context.Context, order *domain.Order) (*domain.Order, error) {
+	dbFn := o.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
+
+	if result := dbFn.Table("order").Create(order); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return order, nil
+}
+
+func (o *Order) CreateOrderItens(ctx context.Context, order *domain.OrderItens) (*domain.OrderItens, error) {
+	dbFn := o.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
+
+	if result := dbFn.Table("order_item").Create(order); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return order, nil
 }

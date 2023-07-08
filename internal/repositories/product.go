@@ -22,14 +22,38 @@ func NewProductRepository(db *gorm.DB) *Product {
 func (p *Product) CreateCategory(ctx context.Context, c *domain.Category) (*domain.Category, error) {
 	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
 
-	if result := dbFn.Table("categories").Create(c); result.Error != nil {
+	if result := dbFn.Table("product_category").Create(c); result.Error != nil {
 		return nil, result.Error
 	}
 
 	return c, nil
 }
 
-// CreateCategory create a new category record. If record already exists, it does nothing.
-func (p *Product) Create(ctx context.Context, input *domain.Product) (*domain.Product, error) {
-	return nil, nil
+// Create create a new product record. If record already exists, it does nothing.
+func (p *Product) Create(ctx context.Context, pdt *domain.Product) (*domain.Product, error) {
+	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
+
+	if result := dbFn.Table("product").Create(pdt); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return pdt, nil
+}
+
+// Update updates a product record in database.
+func (p *Product) Update(ctx context.Context, pdt *domain.Product) error {
+	dbFn := p.db.WithContext(ctx)
+
+	filter := pdt.ID
+
+	return dbFn.Table("product").Where(filter).Updates(pdt).Error
+}
+
+// Delete remove a product record in database.
+func (p *Product) Delete(ctx context.Context, pdt *domain.Product) error {
+	dbFn := p.db.WithContext(ctx)
+
+	id := pdt.ID
+
+	return dbFn.Table("product").Where("id = ?", id).Delete(&pdt).Error
 }

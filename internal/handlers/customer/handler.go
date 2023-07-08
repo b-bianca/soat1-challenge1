@@ -1,4 +1,4 @@
-package product
+package customer
 
 import (
 	"soat1-challenge1/internal/core/ports"
@@ -8,11 +8,11 @@ import (
 
 // Handler provides product funcionalities
 type Handler struct {
-	useCase ports.ProductUseCase
+	useCase ports.CustomerUseCase
 }
 
 // NewHandler is the product handler builder
-func NewHandler(u ports.ProductUseCase) *Handler {
+func NewHandler(u ports.CustomerUseCase) *Handler {
 	return &Handler{
 		useCase: u,
 	}
@@ -20,9 +20,7 @@ func NewHandler(u ports.ProductUseCase) *Handler {
 
 // RegisterRoutes register routes
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
-	productRoute := routes.Group("/product")
-	productRoute.POST("/category", h.CreateCategory)
-	productRoute.POST("", h.Create)
-	productRoute.PUT("/:id", h.Update)
-	productRoute.DELETE("/:id", h.Delete)
+	customerRoute := routes.Group("/customer")
+	customerRoute.POST("/", h.CreateCustomer)
+	customerRoute.GET("/:cpf", h.RetrieveCustomer)
 }

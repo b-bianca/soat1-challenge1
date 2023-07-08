@@ -21,14 +21,35 @@ func NewProductUseCase(p ports.ProductRepository) ports.ProductUseCase {
 func (u *useCaseProduct) CreateCategory(ctx context.Context, input *domain.Category) (*domain.Category, error) {
 	res, err := u.repository.CreateCategory(ctx, input)
 	if err != nil {
-		//TODO: ADD LOGS
 		return nil, err
 	}
 
 	return res, nil
 }
 
-// List retrieves all orders
+// Create create and persist product data
 func (u *useCaseProduct) Create(ctx context.Context, input *domain.Product) (*domain.Product, error) {
-	return nil, nil
+	p, err := u.repository.Create(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
+}
+
+// Update updates a product and persist new data
+func (u *useCaseProduct) Update(ctx context.Context, input *domain.Product) error {
+	if err := u.repository.Update(ctx, input); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Delete remove a product data
+func (u *useCaseProduct) Delete(ctx context.Context, input *domain.Product) error {
+	if err := u.repository.Delete(ctx, input); err != nil {
+		return err
+	}
+
+	return nil
 }
