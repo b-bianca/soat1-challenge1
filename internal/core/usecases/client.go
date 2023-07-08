@@ -24,3 +24,12 @@ func (u *useCaseCustomer) CreateCustomer(ctx context.Context, c *domain.Customer
 
 	return res, nil
 }
+
+func (u *useCaseCustomer) RetrieveCustomer(ctx context.Context, c *domain.Customer) (*domain.Customer, error) {
+	res, err := u.repository.RetrieveCustomer(ctx, c)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

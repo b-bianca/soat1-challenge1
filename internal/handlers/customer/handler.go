@@ -22,5 +22,5 @@ func NewHandler(u ports.CustomerUseCase) *Handler {
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
 	customerRoute := routes.Group("/customer")
 	customerRoute.POST("/", h.CreateCustomer)
-
+	customerRoute.GET("/:cpf", h.RetrieveCustomer)
 }

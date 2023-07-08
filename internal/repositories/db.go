@@ -16,7 +16,7 @@ const (
 
 // NewRepository creates a new gorm mysql db repository instance.
 func NewRepository() (repo *Repository) {
-	gdb, err := gorm.Open(mysql.Open("user:user@tcp(localhost:3306)/restaurant"), &gorm.Config{})
+	gdb, err := gorm.Open(mysql.Open("user:user@tcp(localhost:3306)/restaurant?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{})
 	if err != nil {
 		log.Panicf("failed to create mysql db: %v", err)
 	}

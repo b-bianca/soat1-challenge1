@@ -7,6 +7,7 @@ import (
 
 type CustomerRepository interface {
 	CreateCustomer(ctx context.Context, c *domain.Customer) (*domain.Customer, error)
+	RetrieveCustomer(ctx context.Context, c *domain.Customer) (*domain.Customer, error)
 }
 
 // OrderRepository is the interface for order database
