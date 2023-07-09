@@ -1,9 +1,12 @@
 package order
 
 import (
+	"fmt"
 	"net/http"
 	"soat1-challenge1/internal/core/domain"
 	"soat1-challenge1/internal/handlers/dto"
+	"soat1-challenge1/internal/handlers/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -41,38 +44,66 @@ func (h *Handler) List(ctx *gin.Context) {
 func (h *Handler) CreateOrder(ctx *gin.Context) {
 	var input *dto.OrderRequestDTO
 	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
 
 	domainOrder := &domain.Order{
 		CustomerID: input.CustomerID,
+		Status:     models.Pending,
 	}
 
 	res, err := h.useCase.CreateOrder(ctx, domainOrder)
 	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	responseItems := make([]*domain.Itens, 0, MaxQuantityPerOrder)
+	fmt.Print(res)
 
-	for _, item := range input.Itens {
-		responseItems = append(responseItems, &domain.Itens{
+	orderItems := make([]*domain.OrderItems, 0, MaxQuantityPerOrder)
+
+	for _, item := range input.Items {
+		fmt.Print(item)
+		orderItems = append(orderItems, &domain.OrderItems{
+			OrderID:   res.ID,
 			ProductID: item.ProductID,
 			Quantity:  item.Quantity,
 		})
 	}
-
-	domainOrderItem := &domain.OrderItens{
-		OrderID: res.ID,
-		Itens:   responseItems,
-	}
-
-	_, err = h.useCase.CreateOrderItens(ctx, domainOrderItem)
+	fmt.Print(orderItems)
+	resItems, err := h.useCase.CreateOrderItems(ctx, orderItems)
 	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	output := &dto.OrderResponseDTO{}
+	output := &dto.OrderResponseDTO{
+		ID:         res.ID,
+		Status:     res.Status,
+		CustomerID: res.CustomerID,
+		CreatedAt:  res.CreatedAt,
+		UpdatedAt:  res.UpdatedAt,
+		Items:      resItems,
+	}
+
+	ctx.JSON(http.StatusCreated, output)
+}
+
+func (h *Handler) MakePayment(ctx *gin.Context) {
+	orderID := ctx.Param("id")
+	id, _ := strconv.Atoi(orderID)
+
+	var input *dto.PaymentDTO
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		return
+	}
+
+	output := &dto.PaymentDTO{
+		OrderID: id,
+		Price:   input.Price,
+		Status:  models.Approved,
+	}
 
 	ctx.JSON(http.StatusOK, output)
 }

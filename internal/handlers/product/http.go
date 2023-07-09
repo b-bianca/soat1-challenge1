@@ -9,31 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreateCategory(ctx *gin.Context) {
-	var input *dto.CategoryRequestDTO
-	if err := ctx.ShouldBindJSON(&input); err != nil {
-		return
-	}
-
-	domain := &domain.Category{
-		Name: input.Name,
-	}
-
-	res, err := h.useCase.CreateCategory(ctx, domain)
-	if err != nil {
-		return
-	}
-
-	output := &dto.CategoryResponseDTO{
-		ID:        res.ID,
-		Name:      res.Name,
-		CreatedAt: res.CreatedAt,
-		UpdatedAt: res.UpdatedAt,
-	}
-
-	ctx.JSON(http.StatusOK, output)
-}
-
 func (h *Handler) Create(ctx *gin.Context) {
 	var input *dto.ProductRequestDTO
 	if err := ctx.ShouldBindJSON(&input); err != nil {
@@ -62,7 +37,7 @@ func (h *Handler) Create(ctx *gin.Context) {
 		UpdatedAt:   res.UpdatedAt,
 	}
 
-	ctx.JSON(http.StatusOK, output)
+	ctx.JSON(http.StatusCreated, output)
 }
 
 func (h *Handler) Update(ctx *gin.Context) {
@@ -103,4 +78,32 @@ func (h *Handler) Delete(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusNoContent, "")
+}
+
+func (h *Handler) GetProducts(ctx *gin.Context) {
+	res, err := h.useCase.GetProducts(ctx)
+	if err != nil {
+		return
+	}
+
+	responseItems := make([]*dto.ProductResponseDTO, 0, len(res.Result))
+
+	for _, item := range res.Result {
+		responseItems = append(responseItems, &dto.ProductResponseDTO{
+			ID:          item.ID,
+			Name:        item.Name,
+			Description: item.Description,
+			CategoryID:  item.CategoryID,
+			Price:       item.Price,
+			CreatedAt:   item.CreatedAt,
+			UpdatedAt:   item.UpdatedAt,
+		})
+	}
+
+	output := &dto.ProductResponseList{
+		Result: responseItems,
+		Count:  res.Count,
+	}
+
+	ctx.JSON(http.StatusOK, output)
 }

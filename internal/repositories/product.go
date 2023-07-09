@@ -18,17 +18,6 @@ func NewProductRepository(db *gorm.DB) *Product {
 	return &Product{db}
 }
 
-// CreateCategory create a new category record. If record already exists, it does nothing.
-func (p *Product) CreateCategory(ctx context.Context, c *domain.Category) (*domain.Category, error) {
-	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
-
-	if result := dbFn.Table("product_category").Create(c); result.Error != nil {
-		return nil, result.Error
-	}
-
-	return c, nil
-}
-
 // Create create a new product record. If record already exists, it does nothing.
 func (p *Product) Create(ctx context.Context, pdt *domain.Product) (*domain.Product, error) {
 	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
@@ -56,4 +45,22 @@ func (p *Product) Delete(ctx context.Context, pdt *domain.Product) error {
 	id := pdt.ID
 
 	return dbFn.Table("product").Where("id = ?", id).Delete(&pdt).Error
+}
+
+// List retrives all categories.
+func (o *Product) GetProducts(ctx context.Context) (*domain.ProductResponseList, error) {
+	dbFn := o.db.WithContext(ctx)
+
+	var count int64
+	var products []*domain.Product
+
+	result := dbFn.Table("product").Find(&products).Count(&count)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &domain.ProductResponseList{
+		Result: products,
+		Count:  count,
+	}, nil
 }

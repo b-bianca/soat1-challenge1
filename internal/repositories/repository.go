@@ -13,6 +13,7 @@ type Repository struct {
 	connSQL  *sql.DB
 	Order    *Order
 	Product  *Product
+	ProductCategory *ProductCategory
 	Customer *Customer
 }
 
@@ -29,6 +30,7 @@ func New(gdb *gorm.DB) *Repository {
 		connSQL:  conn,
 		Order:    NewOrderRepository(gdb),
 		Product:  NewProductRepository(gdb),
+		ProductCategory:  NewProductCategoryRepository(gdb),
 		Customer: NewCustomerRepository(gdb),
 	}
 }

@@ -35,7 +35,7 @@ func (h *Handler) CreateCustomer(ctx *gin.Context) {
 		UpdatedAt: res.UpdatedAt,
 	}
 
-	ctx.JSON(http.StatusOK, output)
+	ctx.JSON(http.StatusCreated, output)
 }
 
 func (h *Handler) RetrieveCustomer(ctx *gin.Context) {
