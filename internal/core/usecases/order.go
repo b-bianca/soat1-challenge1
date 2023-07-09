@@ -27,6 +27,15 @@ func (u *useCaseOrder) List(ctx context.Context) (*domain.OrderResponseList, err
 	return res, nil
 }
 
+func (u *useCaseOrder) GetOrderItems(ctx context.Context, orderID int) ([]*domain.OrderItems, error) {
+	res, err := u.repository.GetOrderItems(ctx, orderID)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
 func (u *useCaseOrder) CreateOrder(ctx context.Context, input *domain.Order) (*domain.Order, error) {
 	res, err := u.repository.CreateOrder(ctx, input)
 	if err != nil {
@@ -43,4 +52,13 @@ func (u *useCaseOrder) CreateOrderItems(ctx context.Context, input []*domain.Ord
 	}
 
 	return res, nil
+}
+
+func (u *useCaseOrder) UpdateOrderStatus(ctx context.Context, orderID int, status string) error {
+	err := u.repository.UpdateOrderStatus(ctx, orderID, status)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

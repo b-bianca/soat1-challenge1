@@ -13,6 +13,8 @@ type CustomerRepository interface {
 // OrderRepository is the interface for order database
 type OrderRepository interface {
 	List(context.Context) (*domain.OrderResponseList, error)
+	GetOrderItems(ctx context.Context, orderID int) ([]*domain.OrderItems, error)
+	UpdateOrderStatus(ctx context.Context, orderID int, status string) error
 	CreateOrder(context.Context, *domain.Order) (*domain.Order, error)
 	CreateOrderItems(ctx context.Context, order []*domain.OrderItems) ([]*domain.OrderItems, error)
 }

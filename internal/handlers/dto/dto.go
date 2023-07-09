@@ -87,6 +87,5 @@ type CustomerResponseDTO struct {
 
 type PaymentDTO struct {
 	OrderID int                  `json:"order_id"`
-	Price   float64              `json:"price"`
 	Status  models.PaymentStatus `json:"status"`
 }

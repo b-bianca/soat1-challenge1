@@ -25,6 +25,7 @@ const (
 	Preparing = "preparing"
 	Ready     = "ready"
 	Finished  = "finished"
+	Cancelled = "cancelled"
 )
 
 func (s OrderStatus) String() string {
