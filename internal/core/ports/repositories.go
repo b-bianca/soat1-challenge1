@@ -14,7 +14,7 @@ type CustomerRepository interface {
 type OrderRepository interface {
 	List(context.Context) (*domain.OrderResponseList, error)
 	CreateOrder(context.Context, *domain.Order) (*domain.Order, error)
-	CreateOrderItens(ctx context.Context, order *domain.OrderItens) (*domain.OrderItens, error)
+	CreateOrderItems(ctx context.Context, order []*domain.OrderItems) ([]*domain.OrderItems, error)
 }
 
 // ProductRepository is the interface for product database

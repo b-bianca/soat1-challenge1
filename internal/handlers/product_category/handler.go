@@ -1,4 +1,4 @@
-package product
+package product_category
 
 import (
 	"soat1-challenge1/internal/core/ports"

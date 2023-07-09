@@ -1,26 +1,29 @@
 package domain
 
-import "time"
+import (
+	"soat1-challenge1/internal/handlers/models"
+	"time"
+)
 
 // Order domain table model
 type Order struct {
-	ID         int    `gorm:"not null"`
-	Status     string `gorm:"type:enum('aguardando pagamento', 'pago');default:'aguardando pagamento'"`
+	ID         int                `gorm:"not null"`
+	Status     models.OrderStatus `gorm:"not null"`
 	CustomerID int
-	Itens      []*Itens
 	CreatedAt  time.Time `gorm:"not null;autoCreateTime"`
 	UpdatedAt  time.Time `gorm:"not null;autoUpdateTime"`
 }
 
-type OrderItens struct {
+type OrderItems struct {
 	ID        int       `gorm:"not null"`
 	OrderID   int       `gorm:"not null"`
-	Itens     []*Itens  `gorm:"not null"`
+	ProductID int       `gorm:"not null"`
+	Quantity  int       `gorm:"not_null"`
 	CreatedAt time.Time `gorm:"not null;autoCreateTime"`
 	UpdatedAt time.Time `gorm:"not null;autoUpdateTime"`
 }
 
-type Itens struct {
+type Item struct {
 	ProductID int `gorm:"not null"`
 	Quantity  int `gorm:"not_null"`
 }

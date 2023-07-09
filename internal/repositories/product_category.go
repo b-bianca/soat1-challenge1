@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-// Product struct type
+// Product Category struct type
 type ProductCategory struct {
 	db *gorm.DB
 }

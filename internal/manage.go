@@ -16,18 +16,18 @@ type apps interface {
 
 // Manage holds client instance
 type Manage struct {
-	order    apps
-	product  apps
-	productCategory  apps
-	customer apps
+	order           apps
+	product         apps
+	productCategory apps
+	customer        apps
 }
 
 // UseCases config struct
 type UseCases struct {
-	Order    ports.OrderUseCase
-	Product  ports.ProductUseCase
-	ProductCategory  ports.ProductCategoryUseCase
-	Customer ports.CustomerUseCase
+	Order           ports.OrderUseCase
+	Product         ports.ProductUseCase
+	ProductCategory ports.ProductCategoryUseCase
+	Customer        ports.CustomerUseCase
 }
 
 // New creates a new client to create new routes
@@ -39,9 +39,9 @@ func New(uc *UseCases) *Manage {
 	productCategoryHandler := pc.NewHandler(uc.ProductCategory)
 
 	return &Manage{
-		order:    orderHandler,
-		product:  productHandler,
-		customer: customerHandler,
+		order:           orderHandler,
+		product:         productHandler,
+		customer:        customerHandler,
 		productCategory: productCategoryHandler,
 	}
 }

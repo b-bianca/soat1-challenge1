@@ -46,12 +46,12 @@ func (o *Order) CreateOrder(ctx context.Context, order *domain.Order) (*domain.O
 	return order, nil
 }
 
-func (o *Order) CreateOrderItens(ctx context.Context, order *domain.OrderItens) (*domain.OrderItens, error) {
+func (o *Order) CreateOrderItems(ctx context.Context, orderItems []*domain.OrderItems) ([]*domain.OrderItems, error) {
 	dbFn := o.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
 
-	if result := dbFn.Table("order_item").Create(order); result.Error != nil {
+	if result := dbFn.Table("order_item").Create(orderItems); result.Error != nil {
 		return nil, result.Error
 	}
 
-	return order, nil
+	return orderItems, nil
 }

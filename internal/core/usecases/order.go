@@ -36,8 +36,8 @@ func (u *useCaseOrder) CreateOrder(ctx context.Context, input *domain.Order) (*d
 	return res, nil
 }
 
-func (u *useCaseOrder) CreateOrderItens(ctx context.Context, input *domain.OrderItens) (*domain.OrderItens, error) {
-	res, err := u.repository.CreateOrderItens(ctx, input)
+func (u *useCaseOrder) CreateOrderItems(ctx context.Context, input []*domain.OrderItems) ([]*domain.OrderItems, error) {
+	res, err := u.repository.CreateOrderItems(ctx, input)
 	if err != nil {
 		return nil, err
 	}

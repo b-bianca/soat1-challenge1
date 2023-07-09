@@ -1,4 +1,4 @@
-package product
+package product_category
 
 import (
 	"net/http"
@@ -31,7 +31,7 @@ func (h *Handler) CreateCategory(ctx *gin.Context) {
 		UpdatedAt: res.UpdatedAt,
 	}
 
-	ctx.JSON(http.StatusOK, output)
+	ctx.JSON(http.StatusCreated, output)
 }
 
 func (h *Handler) GetCategories(ctx *gin.Context) {

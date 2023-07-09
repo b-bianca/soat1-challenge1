@@ -20,6 +20,8 @@ func NewHandler(u ports.OrderUseCase) *Handler {
 
 // RegisterRoutes register routes
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
-	orderRoute := routes.Group("/order")
+	orderRoute := routes.Group("/orders")
 	orderRoute.GET("", h.List)
+	orderRoute.POST("", h.CreateOrder)
+	orderRoute.POST("/:id/payments", h.MakePayment)
 }
