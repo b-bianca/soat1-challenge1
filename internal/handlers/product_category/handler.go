@@ -8,11 +8,11 @@ import (
 
 // Handler provides product funcionalities
 type Handler struct {
-	useCase ports.ProductUseCase
+	useCase ports.ProductCategoryUseCase
 }
 
 // NewHandler is the product handler builder
-func NewHandler(u ports.ProductUseCase) *Handler {
+func NewHandler(u ports.ProductCategoryUseCase) *Handler {
 	return &Handler{
 		useCase: u,
 	}
@@ -20,8 +20,7 @@ func NewHandler(u ports.ProductUseCase) *Handler {
 
 // RegisterRoutes register routes
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
-	productRoute := routes.Group("/product")
-	productRoute.POST("", h.Create)
-	productRoute.PUT("/:id", h.Update)
-	productRoute.DELETE("/:id", h.Delete)
+	productCategoryRoute := routes.Group("/categories")
+	productCategoryRoute.POST("", h.CreateCategory)
+	productCategoryRoute.GET("", h.GetCategories)
 }

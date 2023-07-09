@@ -19,8 +19,13 @@ type OrderRepository interface {
 
 // ProductRepository is the interface for product database
 type ProductRepository interface {
-	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
 	Create(ctx context.Context, product *domain.Product) (*domain.Product, error)
 	Update(ctx context.Context, product *domain.Product) error
 	Delete(ctx context.Context, pdt *domain.Product) error
+}
+
+// ProductCategoryRepository is the interface for product_category database
+type ProductCategoryRepository interface {
+	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
+	GetCategories(context.Context) (*domain.CategoriesResponseList, error)
 }

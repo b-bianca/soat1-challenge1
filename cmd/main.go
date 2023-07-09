@@ -31,6 +31,7 @@ func main() {
 	m := manage.New(&manage.UseCases{
 		Order:    usecases.NewOrderUseCase(repository.Order),
 		Product:  usecases.NewProductUseCase(repository.Product),
+		ProductCategory:  usecases.NewProductCategoryUseCase(repository.ProductCategory),
 		Customer: usecases.NewCustomerUseCase(repository.Customer),
 	})
 

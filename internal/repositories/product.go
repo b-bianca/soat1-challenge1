@@ -18,17 +18,6 @@ func NewProductRepository(db *gorm.DB) *Product {
 	return &Product{db}
 }
 
-// CreateCategory create a new category record. If record already exists, it does nothing.
-func (p *Product) CreateCategory(ctx context.Context, c *domain.Category) (*domain.Category, error) {
-	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})
-
-	if result := dbFn.Table("product_category").Create(c); result.Error != nil {
-		return nil, result.Error
-	}
-
-	return c, nil
-}
-
 // Create create a new product record. If record already exists, it does nothing.
 func (p *Product) Create(ctx context.Context, pdt *domain.Product) (*domain.Product, error) {
 	dbFn := p.db.WithContext(ctx).Clauses(clause.OnConflict{DoNothing: true})

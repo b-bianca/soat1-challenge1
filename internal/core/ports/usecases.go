@@ -19,8 +19,13 @@ type OrderUseCase interface {
 
 // ProductUseCase is the interface for product repository
 type ProductUseCase interface {
-	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
 	Create(ctx context.Context, product *domain.Product) (*domain.Product, error)
 	Update(ctx context.Context, product *domain.Product) error
 	Delete(ctx context.Context, pdt *domain.Product) error
+}
+
+// ProductCategoryUseCase is the interface for product_category repository
+type ProductCategoryUseCase interface {
+	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
+	GetCategories(context.Context) (*domain.CategoriesResponseList, error)
 }

@@ -30,6 +30,11 @@ type OrderResponseList struct {
 	Count  int64               `json:"count"`
 }
 
+type CategoriesResponseList struct {
+	Result []*CategoryResponseDTO `json:"result"`
+	Count  int64               `json:"count"`
+}
+
 type CategoryRequestDTO struct {
 	Name string `json:"name"`
 }

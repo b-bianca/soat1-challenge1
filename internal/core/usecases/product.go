@@ -17,16 +17,6 @@ func NewProductUseCase(p ports.ProductRepository) ports.ProductUseCase {
 	}
 }
 
-// CreateCategory persist category data
-func (u *useCaseProduct) CreateCategory(ctx context.Context, input *domain.Category) (*domain.Category, error) {
-	res, err := u.repository.CreateCategory(ctx, input)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
-
 // Create create and persist product data
 func (u *useCaseProduct) Create(ctx context.Context, input *domain.Product) (*domain.Product, error) {
 	p, err := u.repository.Create(ctx, input)

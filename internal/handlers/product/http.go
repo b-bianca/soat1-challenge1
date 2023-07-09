@@ -8,32 +8,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-func (h *Handler) CreateCategory(ctx *gin.Context) {
-	var input *dto.CategoryRequestDTO
-	if err := ctx.ShouldBindJSON(&input); err != nil {
-		return
-	}
-
-	domain := &domain.Category{
-		Name: input.Name,
-	}
-
-	res, err := h.useCase.CreateCategory(ctx, domain)
-	if err != nil {
-		return
-	}
-
-	output := &dto.CategoryResponseDTO{
-		ID:        res.ID,
-		Name:      res.Name,
-		CreatedAt: res.CreatedAt,
-		UpdatedAt: res.UpdatedAt,
-	}
-
-	ctx.JSON(http.StatusOK, output)
-}
-
 func (h *Handler) Create(ctx *gin.Context) {
 	var input *dto.ProductRequestDTO
 	if err := ctx.ShouldBindJSON(&input); err != nil {
