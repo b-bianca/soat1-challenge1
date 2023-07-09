@@ -78,3 +78,31 @@ func (h *Handler) Delete(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusNoContent, "")
 }
+
+func (h *Handler) GetProducts(ctx *gin.Context) {
+	res, err := h.useCase.GetProducts(ctx)
+	if err != nil {
+		return
+	}
+
+	responseItems := make([]*dto.ProductResponseDTO, 0, len(res.Result))
+
+	for _, item := range res.Result {
+		responseItems = append(responseItems, &dto.ProductResponseDTO{
+			ID: item.ID,         
+			Name: item.Name,       
+			Description: item.Description,
+			CategoryID: item.CategoryID,
+			Price: item.Price,
+			CreatedAt: item.CreatedAt,
+			UpdatedAt: item.UpdatedAt,
+		})
+	}
+
+	output := &dto.ProductResponseList{
+		Result: responseItems,
+		Count:  res.Count,
+	}
+
+	ctx.JSON(http.StatusOK, output)
+}

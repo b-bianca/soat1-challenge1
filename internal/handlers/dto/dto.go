@@ -63,6 +63,11 @@ type ProductResponseDTO struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
+
+type ProductResponseList struct {
+	Result []*ProductResponseDTO `json:"result"`
+	Count  int64               `json:"count"`
+}
 type CustomerRequestDTO struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`

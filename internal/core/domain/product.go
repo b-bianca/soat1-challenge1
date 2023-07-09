@@ -14,3 +14,9 @@ type Product struct {
 	CreatedAt   time.Time `gorm:"not null;autoCreateTime"`
 	UpdatedAt   time.Time `gorm:"not null;autoUpdateTime"`
 }
+
+// ProductResponseList summary list
+type ProductResponseList struct {
+	Result []*Product
+	Count  int64
+}

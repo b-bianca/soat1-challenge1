@@ -46,3 +46,21 @@ func (p *Product) Delete(ctx context.Context, pdt *domain.Product) error {
 
 	return dbFn.Table("product").Where("id = ?", id).Delete(&pdt).Error
 }
+
+// List retrives all categories.
+func (o *Product) GetProducts(ctx context.Context) (*domain.ProductResponseList, error) {
+	dbFn := o.db.WithContext(ctx)
+
+	var count int64
+	var products []*domain.Product
+
+	result := dbFn.Table("product").Find(&products).Count(&count)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &domain.ProductResponseList{
+		Result: products,
+		Count:  count,
+	}, nil
+}

@@ -22,6 +22,7 @@ type ProductUseCase interface {
 	Create(ctx context.Context, product *domain.Product) (*domain.Product, error)
 	Update(ctx context.Context, product *domain.Product) error
 	Delete(ctx context.Context, pdt *domain.Product) error
+	GetProducts(context.Context) (*domain.ProductResponseList, error)
 }
 
 // ProductCategoryUseCase is the interface for product_category repository

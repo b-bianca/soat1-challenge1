@@ -43,3 +43,13 @@ func (u *useCaseProduct) Delete(ctx context.Context, input *domain.Product) erro
 
 	return nil
 }
+
+// List retrieves all products
+func (u *useCaseProduct) GetProducts(ctx context.Context) (*domain.ProductResponseList, error) {
+	res, err := u.repository.GetProducts(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

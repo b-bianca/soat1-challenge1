@@ -20,7 +20,8 @@ func NewHandler(u ports.ProductUseCase) *Handler {
 
 // RegisterRoutes register routes
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
-	productRoute := routes.Group("/product")
+	productRoute := routes.Group("/products")
+	productRoute.GET("", h.GetProducts)
 	productRoute.POST("", h.Create)
 	productRoute.PUT("/:id", h.Update)
 	productRoute.DELETE("/:id", h.Delete)
