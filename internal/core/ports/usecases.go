@@ -13,6 +13,8 @@ type CustomerUseCase interface {
 // OrderUseCase is the interface for order repository
 type OrderUseCase interface {
 	CreateOrder(ctx context.Context, order *domain.Order) (*domain.Order, error)
+	GetOrderItems(ctx context.Context, orderID int) ([]*domain.OrderItems, error)
+	UpdateOrderStatus(ctx context.Context, orderID int, status string) error
 	CreateOrderItems(ctx context.Context, orderItems []*domain.OrderItems) ([]*domain.OrderItems, error)
 	List(context.Context) (*domain.OrderResponseList, error)
 }

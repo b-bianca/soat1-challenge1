@@ -9,6 +9,7 @@ import (
 type Order struct {
 	ID         int                `gorm:"not null"`
 	Status     models.OrderStatus `gorm:"not null"`
+	OrderItems []*OrderItems      `gorm:"foreignKey:OrderID"`
 	CustomerID int
 	CreatedAt  time.Time `gorm:"not null;autoCreateTime"`
 	UpdatedAt  time.Time `gorm:"not null;autoUpdateTime"`
