@@ -46,3 +46,22 @@ func (o *ProductCategory) GetCategories(ctx context.Context) (*domain.Categories
 		Count:  count,
 	}, nil
 }
+
+// List retrives all category products.
+func (o *ProductCategory) GetCategoryProducts(ctx context.Context, category *domain.Category) (*domain.ProductResponseList, error) {
+	dbFn := o.db.WithContext(ctx)
+	categoryID := category.ID
+
+	var count int64
+	var products []*domain.Product
+
+	result := dbFn.Table("product").Where("category_id = ?", categoryID).Find(&products).Count(&count)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &domain.ProductResponseList{
+		Result: products,
+		Count:  count,
+	}, nil
+}

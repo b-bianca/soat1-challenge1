@@ -23,4 +23,5 @@ func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
 	productCategoryRoute := routes.Group("/categories")
 	productCategoryRoute.POST("", h.CreateCategory)
 	productCategoryRoute.GET("", h.GetCategories)
+	productCategoryRoute.GET("/:id/products", h.GetCategoryProducts)
 }

@@ -36,3 +36,13 @@ func (u *useCaseProductCategory) GetCategories(ctx context.Context) (*domain.Cat
 
 	return res, nil
 }
+
+// List retrieves all category products
+func (u *useCaseProductCategory) GetCategoryProducts(ctx context.Context, category *domain.Category) (*domain.ProductResponseList, error) {
+	res, err := u.repository.GetCategoryProducts(ctx, category)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

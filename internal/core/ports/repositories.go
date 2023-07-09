@@ -29,4 +29,5 @@ type ProductRepository interface {
 type ProductCategoryRepository interface {
 	CreateCategory(ctx context.Context, category *domain.Category) (*domain.Category, error)
 	GetCategories(context.Context) (*domain.CategoriesResponseList, error)
+	GetCategoryProducts(ctx context.Context, category *domain.Category) (*domain.ProductResponseList, error)
 }
