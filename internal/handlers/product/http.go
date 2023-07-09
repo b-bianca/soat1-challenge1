@@ -61,7 +61,7 @@ func (h *Handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, "")
+	ctx.JSON(http.StatusOK, "")
 }
 
 func (h *Handler) Delete(ctx *gin.Context) {
@@ -77,7 +77,7 @@ func (h *Handler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, "")
+	ctx.JSON(http.StatusOK, "")
 }
 
 func (h *Handler) GetProducts(ctx *gin.Context) {

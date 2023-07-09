@@ -43,8 +43,7 @@ func (o *Order) GetOrderItems(ctx context.Context, orderID int) ([]*domain.Order
 	dbFn := o.db.WithContext(ctx)
 
 	var orderItems []*domain.OrderItems
-
-	result := dbFn.Table("order_item").Find(&orderItems).Where("order_id = ?", orderID)
+	result := dbFn.Table("order_item").Where("order_id = ?", orderID).Find(&orderItems)
 
 	fmt.Sprintf("%+v", orderItems)
 	if result.Error != nil {
