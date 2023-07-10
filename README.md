@@ -3,7 +3,7 @@
 Veja a Wiki do projeto em: [https://github.com/b-bianca/soat1-challenge1/wiki](https://github.com/b-bianca/soat1-challenge1/wiki)
 
 ## Requisitos Mínimos
-* Docker Desktop | latest version
+* Docker Desktop | última versão
    
 
 ## Como executar o projeto
@@ -24,8 +24,10 @@ MYSQL_HOST_PORT='3306'
 ~~~
 
 
-Para executar o projeto, é necessário ter o docker destop instalado e subir as instancias usando o docker compose via IDE ou linha de comando.
-' docker compose -f "docker-compose.yml" up -d --build '
+Para executar o projeto, é necessário ter o `Docker Desktop` instalado e subir as instancias usando o docker compose via IDE ou linha de comando conforme a seguir:
+~~~bash
+docker compose -f "docker-compose.yml" up -d --build
+~~~
 
 ## Collection do Postman
 
