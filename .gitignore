@@ -14,4 +14,4 @@
 
 # Arquivos de configuração permitidos apenas para efeito de estudo
 .env
-# *.env.*
+*.env.*
