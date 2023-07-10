@@ -4,7 +4,9 @@ Veja a Wiki do projeto em: [https://github.com/b-bianca/soat1-challenge1/wiki](h
 
 ## Collection do Postman
 
-No diretório ./docs está a collection com as apis implementadas nesse projeto. Para utilizar, basta importar no postman.
+No diretório ./docs está a collection com as apis implementadas nesse projeto. Para utilizar, basta importar no Postman.<br>
+Também é possível acessar o Postam Online:<br>
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/16227218-ad366006-d6e5-41a8-8b14-0e5b79002ac0?action=collection%2Ffork&collection-url=entityId%3D16227218-ad366006-d6e5-41a8-8b14-0e5b79002ac0%26entityType%3Dcollection%26workspaceId%3De76668fb-982b-4d15-ab75-26131dab7174#?env%5BDEV%5D=W3sia2V5IjoiYmFzZV91cmwucmVzdGF1cmFudCIsInZhbHVlIjoibG9jYWxob3N0OjgwODAvYXBpL3YxIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQifV0=)
 
 
 ## Como executar o projeto
