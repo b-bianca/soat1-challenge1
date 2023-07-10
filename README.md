@@ -1,6 +1,6 @@
-# soat1-challenge1
+# Software Architecture - FASE 1 - Tech Challenge
 
-Os diagramas estão linkados na wiki do projeto
+Veja a Wiki do projeto em: [https://github.com/b-bianca/soat1-challenge1/wiki](https://github.com/b-bianca/soat1-challenge1/wiki)
 
 ## Collection do Postman
 
