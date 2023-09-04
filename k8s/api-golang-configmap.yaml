@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restaurant-api-configmap
+  labels:
+    app: restaurant-app
+data:
+  API_PORT: "8080"
