@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restaurant-mysql-pod
+  labels:
+    app: restaurant-mysql-pod
+spec:
+  containers:
+  - name: restaurant-mysql-container
+    image: dchagas/restaurant-app-database-mysql:latest
+    volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "0.5"
+    ports:
+      - containerPort: 3306
+    envFrom:
+      - configMapRef:
+          name: restaurant-mysql-configmap
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: restaurant-app-secret
+          key: MYSQL_ROOT_PASSWORD
+    - name: MYSQL_USER
+      valueFrom:
+        secretKeyRef:
+          name: restaurant-app-secret
+          key: MYSQL_USR
+    - name: MYSQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: restaurant-app-secret
+          key: MYSQL_PASS
+  volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: restaurant-mysql-pv-claim

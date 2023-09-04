@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-api-deployament
+  labels:
+    app: restaurant-api-deployament
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: restaurant-api-deployament
+  template:
+    metadata:
+      labels:
+        app: restaurant-api-deployament
+    spec:
+      containers:
+      - name: restaurant-api-container
+        image: dchagas/restaurant-app-api-golang:latest
+        ports:
+          - containerPort: 8080
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: restaurant-app-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: restaurant-app-secret
+              key: MYSQL_USR
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: restaurant-app-secret
+              key: MYSQL_PASS
+        - name: MYSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: restaurant-app-secret
+              key: MYSQL_DBNAME
+        - name: MYSQL_DSN
+          value: "$(MYSQL_USER):$(MYSQL_PASSWORD)@tcp(restaurant-mysql-service)/$(MYSQL_DBNAME)?multiStatements=true&charset=utf8mb4&parseTime=True&loc=Local"
+        envFrom:
+          - configMapRef:
+              name: restaurant-api-configmap

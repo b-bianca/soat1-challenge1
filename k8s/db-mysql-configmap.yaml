@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restaurant-mysql-configmap
+  labels:
+    app: restaurant-app
+data:
+  MYSQL_DATABASE: restaurant
+  MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+  
