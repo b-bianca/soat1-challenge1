@@ -1,14 +1,11 @@
 package order
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"soat1-challenge1/internal/core/domain"
 	"soat1-challenge1/internal/handlers/dto"
 	"soat1-challenge1/internal/handlers/models"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -87,34 +84,6 @@ func (h *Handler) CreateOrder(ctx *gin.Context) {
 		return
 	}
 
-	ctx.AddParam("id", strconv.Itoa(res.ID))
-	url := fmt.Sprintf("http://localhost:8080/api/v1/orders/%s/payments", strconv.Itoa(res.ID))
-	respPayment, err := http.Post(url, "application/json", nil)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
-		return
-	}
-
-	var payment *dto.PaymentDTO
-	dec := json.NewDecoder(respPayment.Body)
-	if err := dec.Decode(&payment); err != nil && err != io.EOF {
-		ctx.JSON(http.StatusInternalServerError, err)
-		return
-	}
-
-	switch payment.Status {
-	case models.Approved:
-		res.Status = models.Received
-	case models.Rejected:
-		res.Status = models.Cancelled
-	}
-
-	err = h.useCase.UpdateOrderStatus(ctx, res.ID, res.Status.String())
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
-		return
-	}
-
 	output := &dto.OrderResponseDTO{
 		ID:         res.ID,
 		Status:     res.Status,
@@ -125,16 +94,4 @@ func (h *Handler) CreateOrder(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, output)
-}
-
-func (h *Handler) MakePayment(ctx *gin.Context) {
-	orderID := ctx.Param("id")
-	id, _ := strconv.Atoi(orderID)
-
-	output := &dto.PaymentDTO{
-		OrderID: id,
-		Status:  models.Approved,
-	}
-
-	ctx.JSON(http.StatusOK, output)
 }

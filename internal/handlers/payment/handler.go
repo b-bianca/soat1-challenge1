@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Handler provides order funcionalities
+// Handler provides payment funcionalities
 type Handler struct {
 	useCase ports.OrderUseCase
 }
 
-// NewHandler is the order handler builder
+// NewHandler is the payment handler builder
 func NewHandler(u ports.OrderUseCase) *Handler {
 	return &Handler{
 		useCase: u,
@@ -20,7 +20,6 @@ func NewHandler(u ports.OrderUseCase) *Handler {
 
 // RegisterRoutes register routes
 func (h *Handler) RegisterRoutes(routes *gin.RouterGroup) {
-	orderRoute := routes.Group("/orders")
-	orderRoute.GET("", h.List)
-	orderRoute.POST("", h.CreateOrder)
+	orderRoute := routes.Group("/payments")
+	orderRoute.POST("/:id", h.MakePayment)
 }
