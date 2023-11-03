@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 jobs:
   create-docker-image:
     name: "Build Docker Image"
@@ -17,7 +16,7 @@ jobs:
         with:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
-          aws-region: "us-east-1"
+          aws-region: ${{vars.AWS_REGION}}
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -25,8 +24,26 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: "restaurant-project"
+          ECR_REPOSITORY: ${{vars.AWS_ECR_REPOSITORY}}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -f Dockerfile.api-golang -t $REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $REGISTRY/$ECR_REPOSITORY:latest .
           docker push --all-tags $REGISTRY/$ECR_REPOSITORY
+  # deploy:
+  #   name: "Continuous Delivery"
+  #   runs-on: ubuntu-latest
+  #   needs: create-docker-image
+  #   steps:
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+  #         aws-region: ${{vars.AWS_REGION}}
+  #     - name: Update ECS service
+  #       env:
+  #         ECS_CLUSTER: ${{vars.AWS_ECS_CLUSTER}}
+  #         ECS_SERVICE: ${{vars.AWS_ECS_SERVICE}}
+  #         ECS_TASK: ${{vars.AWS_ECS_TASK}}
+  #       run: |
+  #         aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --task-definition $ECS_TASK --force-new-deployment
