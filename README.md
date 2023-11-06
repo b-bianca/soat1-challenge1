@@ -29,6 +29,10 @@ terraform apply
 
 >Nota: caso já exista uma infraestrutura montada, é possível rodar o comando `terraform plan` para verificar a infra remota já existente e o que as mudanças propostas irá alterar
 
+
+## Diagrama
+![image](https://github.com/fiap-postech-soat1-group21/restaurant-application/assets/83218983/03e0b028-4d29-4288-8dfc-7ba90211cbce)
+
 ---
 ---
 </details>
